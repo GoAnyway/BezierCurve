@@ -15,6 +15,10 @@ namespace Bezier.Commands
         public void Execute(object parameter)
         {
             _model.BezierCanvas.Children.Clear();
+            if(_model.RebuildTimer.Enabled)
+            {
+                _model.RebuildTimer.Stop();
+            }
         }
 
 #pragma warning disable CS0067

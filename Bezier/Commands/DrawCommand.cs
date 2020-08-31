@@ -15,8 +15,14 @@ namespace Bezier.Commands
 
         public void Execute(object parameter)
         {
-            if(_model.BezierCurves.Count > 0)
+            if (_model.BezierCurves.Count > 0)
             {
+                _model.BezierCanvas.Children.Clear();
+                if (_model.RebuildTimer.Enabled)
+                {
+                    _model.RebuildTimer.Stop();
+                }
+
                 try
                 {
                     foreach (var bezierCurve in _model.BezierCurves)
@@ -29,7 +35,7 @@ namespace Bezier.Commands
                 }
                 catch (ArgumentException)
                 {
-                    MessageBox.Show($"This Bezier Curve is already drown");
+                    MessageBox.Show($"This Bezier Curve is already drawn");
                 }
             }
             else

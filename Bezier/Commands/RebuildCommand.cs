@@ -16,18 +16,20 @@ namespace Bezier.Commands
         private readonly MainViewModel _mainViewModel;
         private readonly BezierCurveModel _bezierCurveModel = new BezierCurveModel();
         private double _parameter = 0.0;
-        public Timer Timer { get; } = new Timer(40);
 
-        public RebuildCommand(MainViewModel model) => _mainViewModel = model;
+        public RebuildCommand(MainViewModel model)
+        {
+            _mainViewModel = model;
+            _mainViewModel.RebuildTimer.Elapsed += TimerTick;
+        }
 
         public bool CanExecute(object parameter) => true;
 
         public void Execute(object parameter)
         {
-            if(!Timer.Enabled)
+            if(!_mainViewModel.RebuildTimer.Enabled)
             {
-                Timer.Elapsed += TimerTick;
-                Timer.Start();
+                _mainViewModel.RebuildTimer.Start();
             }
         }
 
@@ -113,7 +115,7 @@ namespace Bezier.Commands
             if (_parameter > 1.0)
             {
                 _parameter = 0.0;
-                Timer.Stop();
+                _mainViewModel.RebuildTimer.Stop();
             }
             else
             {

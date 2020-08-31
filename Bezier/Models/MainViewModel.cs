@@ -1,5 +1,6 @@
 ﻿using Bezier.Commands;
 using System.Collections.Generic;
+using System.Timers;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
@@ -8,6 +9,7 @@ namespace Bezier.Models
 {
     public class MainViewModel
     {
+        public Timer RebuildTimer { get; } = new Timer(40); 
         public Canvas BezierCanvas { get; } = new Canvas();
         public List<List<Line>> BezierCurves { get; private set; } = new List<List<Line>>();
 
