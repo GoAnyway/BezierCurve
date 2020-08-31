@@ -17,11 +17,7 @@ namespace Bezier.Commands
         {
             if (_model.BezierCurves.Count > 0)
             {
-                _model.BezierCanvas.Children.Clear();
-                if (_model.RebuildTimer.Enabled)
-                {
-                    _model.RebuildTimer.Stop();
-                }
+                _model.ClearCommand.Execute(parameter);
 
                 try
                 {
