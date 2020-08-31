@@ -24,81 +24,88 @@ namespace Bezier.Commands
 
         public void Execute(object parameter)
         {
-            Timer.Elapsed += TimerTick;
-            Timer.Start();
+            if(!Timer.Enabled)
+            {
+                Timer.Elapsed += TimerTick;
+                Timer.Start();
+            }
         }
 
         private void Render()
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            if(_mainViewModel.BezierCurves.Count > 0)
             {
-                _mainViewModel.BezierCanvas.Children.Clear();
-
-                var lines = _mainViewModel.BezierCurves.Last();
-                var points = new List<Point>();
-                foreach (var line in lines.Skip(lines.Count - 4))
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    points.Add(new Point((int)line.X1, (int)line.Y1));
-                }
+                    _mainViewModel.BezierCanvas.Children.Clear();
 
-                Polyline allPointsLine = new Polyline
-                {
-                    Stroke = Brushes.Pink,
-                    StrokeThickness = 2
-                };
-                foreach (var point in points)
-                {
-                    allPointsLine.Points.Add(new System.Windows.Point(point.X, point.Y));
-                }
-                _mainViewModel.BezierCanvas.Children.Add(allPointsLine);
+                    var lines = _mainViewModel.BezierCurves.Last();
+                    var points = new List<Point>();
+                    foreach (var line in lines.Skip(lines.Count - 4))
+                    {
+                        points.Add(new Point((int)line.X1, (int)line.Y1));
+                    }
 
-
-                foreach (var line in _mainViewModel.BezierCurves.Last())
-                {
-                    _mainViewModel.BezierCanvas.Children.Add(line);
-                }
-
-                var line1 = new Line
-                {
-                    Stroke = Brushes.Green,
-                    StrokeThickness = 2,
-                    X1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 0).X,
-                    X2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 0).Y,
-                    Y1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).X,
-                    Y2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).Y
-                };
-                var line2 = new Line
-                {
-                    Stroke = Brushes.Green,
-                    StrokeThickness = 2,
-                    X1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).X,
-                    X2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).Y,
-                    Y1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 2).X,
-                    Y2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 2).Y
-                };
-                _mainViewModel.BezierCanvas.Children.Add(line1);
-                _mainViewModel.BezierCanvas.Children.Add(line2);
+                    Polyline allPointsLine = new Polyline
+                    {
+                        Stroke = Brushes.Pink,
+                        StrokeThickness = 2
+                    };
+                    foreach (var point in points)
+                    {
+                        allPointsLine.Points.Add(new System.Windows.Point(point.X, point.Y));
+                    }
+                    _mainViewModel.BezierCanvas.Children.Add(allPointsLine);
 
 
-                var line3 = new Line
-                {
-                    Stroke = Brushes.Gold,
-                    StrokeThickness = 2,
-                    X1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 0).X,
-                    X2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 0).Y,
-                    Y1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 1).X,
-                    Y2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 1).Y
+                    foreach (var line in _mainViewModel.BezierCurves.Last())
+                    {
+                        _mainViewModel.BezierCanvas.Children.Add(line);
+                    }
 
-                };
-                _mainViewModel.BezierCanvas.Children.Add(line3);
+                    var line1 = new Line
+                    {
+                        Stroke = Brushes.Green,
+                        StrokeThickness = 2,
+                        X1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 0).X,
+                        X2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 0).Y,
+                        Y1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).X,
+                        Y2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).Y
+                    };
+                    var line2 = new Line
+                    {
+                        Stroke = Brushes.Green,
+                        StrokeThickness = 2,
+                        X1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).X,
+                        X2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 1).Y,
+                        Y1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 2).X,
+                        Y2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 1, 2).Y
+                    };
+                    _mainViewModel.BezierCanvas.Children.Add(line1);
+                    _mainViewModel.BezierCanvas.Children.Add(line2);
 
-                Ellipse ellipse = new Ellipse
-                {
-                    Fill = Brushes.Red,
-                    Height = 7,
-                    Width = 7
-                };
-            });
+
+                    var line3 = new Line
+                    {
+                        Stroke = Brushes.Gold,
+                        StrokeThickness = 2,
+                        X1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 0).X,
+                        X2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 0).Y,
+                        Y1 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 1).X,
+                        Y2 = _bezierCurveModel.CasteljosAlgorithm(points, _parameter, 2, 1).Y
+
+                    };
+                    _mainViewModel.BezierCanvas.Children.Add(line3);
+
+                    Ellipse ellipse = new Ellipse
+                    {
+                        Fill = Brushes.Red,
+                        Height = 7,
+                        Width = 7
+                    };
+                });
+            }
+            
         }
 
         private void TimerTick(object sender, ElapsedEventArgs e)

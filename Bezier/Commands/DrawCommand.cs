@@ -15,19 +15,26 @@ namespace Bezier.Commands
 
         public void Execute(object parameter)
         {
-            try
+            if(_model.BezierCurves.Count > 0)
             {
-                foreach (var bezierCurve in _model.BezierCurves)
+                try
                 {
-                    foreach (var line in bezierCurve)
+                    foreach (var bezierCurve in _model.BezierCurves)
                     {
-                        _model.BezierCanvas.Children.Add(line);
+                        foreach (var line in bezierCurve)
+                        {
+                            _model.BezierCanvas.Children.Add(line);
+                        }
                     }
                 }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show($"This Bezier Curve is already drown");
+                }
             }
-            catch (ArgumentException)
+            else
             {
-                MessageBox.Show($"This Bezier Curve is already drown");
+                _model.OpenFileCommand.Execute(parameter);
             }
         }
 
