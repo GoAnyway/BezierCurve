@@ -14,7 +14,6 @@ namespace Bezier.Commands
 
         public void Execute(object parameter)
         {
-            //_model.DrawCommand.Timer.Stop();
             _model.BezierCanvas.Children.Clear();
         }
 
